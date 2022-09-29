@@ -1,11 +1,19 @@
 const express = require("express");
 const env = require("dotenv");
 
+const connectDB = require("./config/db");
+const errorHandler = require("./middlewares/errors");
+
 env.config({ path: "./config/config.env" });
 
 const app = express();
 
+app.use(connectDB);
+
 const port = process.env.PORT || 5000;
+
+
+app.use(errorHandler);
 
 const server = app.listen(port, () => {
   console.log(
@@ -19,5 +27,7 @@ const shutDown = () => {
   });
 };
 
-
-
+process.on("SIGTERM", shutDown);
+process.on("SIGINT", shutDown);
+process.on("unhandledRejection", shutDown);
+process.on("uncaughtException", shutDown);
