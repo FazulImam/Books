@@ -3,6 +3,7 @@ const env = require("dotenv");
 
 const connectDB = require("./config/db");
 const errorHandler = require("./middlewares/errors");
+const booksRoute = require("./routes/books");
 
 env.config({ path: "./config/config.env" });
 
@@ -12,6 +13,7 @@ app.use(connectDB);
 
 const port = process.env.PORT || 5000;
 
+app.use('/api/v1/books',booksRoute);
 
 app.use(errorHandler);
 
